@@ -1,4 +1,19 @@
 {
   "extends": "../tsconfig.json",
-  "files": ["index.ts"]
+  "include": ["./**/*.ts"],
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "lib": [
+      "es2020"
+    ],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "../dist",
+    "rootDir": ".",
+    "noEmit": true
+  }
 }

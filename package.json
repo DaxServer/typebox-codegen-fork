@@ -14,7 +14,8 @@
     "publish": "hammer task publish",
     "publish:dev": "hammer task publish_dev",
     "start": "hammer task start",
-    "test": "hammer task test"
+    "test": "hammer task test",
+    "generate-schemas": "bun test/wikibase/generate-schemas.ts"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,7 @@
   "homepage": "https://github.com/sinclairzx81/typebox-codegen#readme",
   "devDependencies": {
     "@sinclair/hammer": "^0.17.2",
-    "@types/node": "^18.15.11",
+    "@types/node": "^24.3.0",
     "@types/prettier": "^2.7.2",
     "bun-types": "^1.2.20",
     "wikibase-sdk": "^10.2.3"
@@ -33,7 +34,7 @@
   "dependencies": {
     "@sinclair/typebox": "^0.33.1",
     "prettier": "^2.8.7",
-    "typescript": "^5.4.5"
+    "typescript": "^5.9.2"
   },
   "prettier": {
     "printWidth": 240,

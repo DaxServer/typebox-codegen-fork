@@ -10,6 +10,7 @@
     "types": ["bun-types"],
     "paths": {
       "@sinclair/typebox-codegen": ["../src/index.ts"]
-    }
+    },
+    "noEmit": true
   }
 }

@@ -1,6 +1,8 @@
 import { Type, Static, TSchema } from '@sinclair/typebox'
 
 
+export const EntityTypes = undefined
+
 export type EntityType = Static<typeof EntityType>
 export const EntityType = Type.Index(typeof EntityTypes, Type.Number())
 

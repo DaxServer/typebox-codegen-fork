@@ -8,6 +8,7 @@ import { PropertySignature } from "../nodes/property-signature"
 import { InterfaceDeclaration } from "./interface-declaration"
 import { TypeAliasDeclaration } from "./type-alias-declaration"
 import { TypeReferenceNode } from "./type-reference-node"
+import { VariableStatement } from "../variable-statement"
 import * as Ts from 'typescript'
 
 export function* Visit(node: Ts.Node | undefined): IterableIterator<string> {
@@ -52,6 +53,7 @@ export function* Visit(node: Ts.Node | undefined): IterableIterator<string> {
     if (Ts.isTypeOperatorNode(node)) return yield* TypeOperatorNode(node)
     if (Ts.isTypeParameterDeclaration(node)) return yield* TypeParameterDeclaration(node)
     if (Ts.isTypeReferenceNode(node)) return yield* TypeReferenceNode(node)
+    if (Ts.isVariableStatement(node)) return yield* VariableStatement(node)
     if (Ts.isSourceFile(node)) return yield* SourceFile(node)
     if (node.kind === Ts.SyntaxKind.ExportKeyword) return yield `export`
     if (node.kind === Ts.SyntaxKind.KeyOfKeyword) return yield `Type.KeyOf()`

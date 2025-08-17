@@ -24,6 +24,7 @@ export function* Parameter(node: Ts.ParameterDeclaration): IterableIterator<stri
     const enumType = `${exports}enum Enum${node.name.getText()} { ${members} }`
     const staticType = `${exports}type ${node.name.getText()} = Static<typeof ${node.name.getText()}>`
     const type = `${exports}const ${node.name.getText()} = Type.Enum(Enum${node.name.getText()})`
+    state.typenames.add(node.name.getText())
     yield [enumType, '', staticType, type].join('\n')
   }
 

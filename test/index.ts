@@ -1,2 +1,2 @@
 import './model'
-import './ts2typebox'
+import './ts2typebox/index.test'

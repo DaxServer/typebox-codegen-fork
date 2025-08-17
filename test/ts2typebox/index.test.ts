@@ -1,7 +1,7 @@
 import * as prettier from 'prettier'
 import { describe, test } from 'node:test'
 import assert from 'node:assert/strict'
-import { TypeScriptToTypeBox } from '@sinclair/typebox-codegen'
+import { TypeScriptToTypeBox } from "../../src/typescript/typescript-to-typebox";
 
 const formatWithPrettier = (input: string): string => {
   return prettier.format(input, { parser: 'typescript' })
@@ -24,7 +24,7 @@ describe('ts2typebox - Typescript to Typebox', () => {
       import { Type, Static } from "@sinclair/typebox";
 
       type T = Static<typeof T>;
-      const T = Type.String();
+    const T = Type.String();
       `
     expectEqualIgnoreFormatting(generatedTypebox, expectedResult)
   })
@@ -208,7 +208,7 @@ describe('ts2typebox - Typescript to Typebox', () => {
       A,
       B,
     }
-    
+
     type A = Static<typeof A>
     const A = Type.Enum(EnumA);
 

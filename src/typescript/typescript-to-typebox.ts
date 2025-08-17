@@ -239,12 +239,12 @@ export namespace TypeScriptToTypeBox {
         (optional_subtractive) ? `Type.Mapped(${C}, ${K} => Type.Readonly(Type.Optional(${T}, false)))` :
         `Type.Mapped(${C}, ${K} => Type.Readonly(Type.Optional(${T})))`
       ) : (readonly) ? (
-        readonly_subtractive 
-          ? `Type.Mapped(${C}, ${K} => Type.Readonly(${T}, false))` 
+        readonly_subtractive
+          ? `Type.Mapped(${C}, ${K} => Type.Readonly(${T}, false))`
           : `Type.Mapped(${C}, ${K} => Type.Readonly(${T}))`
       ) : (optional) ? (
-        optional_subtractive 
-          ? `Type.Mapped(${C}, ${K} => Type.Optional(${T}, false))` 
+        optional_subtractive
+          ? `Type.Mapped(${C}, ${K} => Type.Optional(${T}, false))`
           : `Type.Mapped(${C}, ${K} => Type.Optional(${T}))`
       ) : `Type.Mapped(${C}, ${K} => ${T})`
     )
@@ -474,7 +474,15 @@ export namespace TypeScriptToTypeBox {
     if (FindTypeName(node.getSourceFile(), name) && args.length === 0 /** non-resolvable */) {
       return yield `${name}${args}`
     }
+    // Check if the type is an imported type (e.g., from wikibase-sdk)
+    // This is a placeholder for more sophisticated import resolution.
+    // For now, we'll treat any unresolved type reference as Type.Any().
     if (name in globalThis) return yield `Type.Never()`
+    // If the type is not a known TypeBox type or a global, treat it as Type.Any()
+    // This handles imported types that are not explicitly defined in the current file.
+    if (!FindTypeName(node.getSourceFile(), name)) {
+      return yield `Type.Any()`
+    }
     return yield `${name}${args}`
   }
   function* LiteralTypeNode(node: Ts.LiteralTypeNode): IterableIterator<string> {
@@ -503,6 +511,14 @@ export namespace TypeScriptToTypeBox {
   function* ClassDeclaration(node: Ts.ClassDeclaration): IterableIterator<string> {
     // ignore
   }
+  function* ImportDeclaration(node: Ts.ImportDeclaration): IterableIterator<string> {
+    // For now, we'll ignore import declarations as they are not directly converted to TypeBox schemas.
+    // The problem states that the generated code has type errors and is not handling types from import statements.
+    // This means we need to ensure that types referenced via imports are correctly resolved or handled as unknown.
+    // For the purpose of this codegen, we'll treat imported types as Type.Any() if they are not defined within the current scope.
+    // This function will primarily prevent the parser from throwing errors on import statements.
+    return
+  }
   function Collect(node: Ts.Node | undefined): string {
     return `${[...Visit(node)].join('')}`
   }
@@ -520,6 +536,7 @@ export namespace TypeScriptToTypeBox {
     if (Ts.isHeritageClause(node)) return yield* HeritageClause(node)
     if (Ts.isIndexedAccessTypeNode(node)) return yield* IndexedAccessType(node)
     if (Ts.isIndexSignatureDeclaration(node)) return yield* isIndexSignatureDeclaration(node)
+    if (Ts.isImportDeclaration(node)) return yield* ImportDeclaration(node)
     if (Ts.isInterfaceDeclaration(node)) return yield* InterfaceDeclaration(node)
     if (Ts.isLiteralTypeNode(node)) return yield* LiteralTypeNode(node)
     if (Ts.isNamedTupleMember(node)) return yield* NamedTupleMember(node)

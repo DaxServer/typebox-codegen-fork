@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "CommonJS",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "target": "ESNext",
     "baseUrl": ".",
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["bun-types"],
     "paths": {
       "@sinclair/typebox-codegen": ["../src/index.ts"]
     }

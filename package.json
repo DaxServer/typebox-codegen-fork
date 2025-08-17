@@ -26,7 +26,9 @@
   "devDependencies": {
     "@sinclair/hammer": "^0.17.2",
     "@types/node": "^18.15.11",
-    "@types/prettier": "^2.7.2"
+    "@types/prettier": "^2.7.2",
+    "bun-types": "^1.2.20",
+    "wikibase-sdk": "^10.2.3"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.33.1",

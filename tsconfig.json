@@ -2,8 +2,10 @@
   "compilerOptions": {
     "strict": true,
     "module": "CommonJS",
-    "target": "ESNext",
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
     "baseUrl": ".",
+    "types": ["bun-types"],
     "paths": {
       "@sinclair/typebox-codegen": ["src/index.ts"]
     }

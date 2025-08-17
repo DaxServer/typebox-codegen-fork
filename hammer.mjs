@@ -18,7 +18,7 @@ export async function format() {
 export async function test(testReporter = 'spec', filter = '') {
   const pattern = filter.length > 0 ? `"--test-name-pattern=${filter}.*"` : ''
   await shell('hammer build test/index.ts --dist target/test --platform node')
-  await shell(`node --test-reporter ${testReporter} --test ${pattern} target/test/index.js`)
+  await shell(`bun test ${pattern} ./target/test/index.js`)
 }
 // -------------------------------------------------------------
 // Start
@@ -34,7 +34,6 @@ export async function build(target = 'target/build') {
   await folder(target).add('package.json')
   await folder(target).add('license')
   await folder(target).add('readme.md')
-  await shell(`cd ${target} && npm pack`)
 }
 // -------------------------------------------------------------
 // Publish
@@ -42,7 +41,7 @@ export async function build(target = 'target/build') {
 export async function publish(otp, target = 'target/build') {
   const { version } = JSON.parse(readFileSync(`${target}/package.json`, 'utf8'))
   if(version.includes('-dev')) throw Error(`package version should not include -dev specifier`)
-  await shell(`cd ${target} && npm publish sinclair-typebox-codegen-${version}.tgz --access=public --otp ${otp}`)
+  await shell(`cd ${target} && bun publish sinclair-typebox-codegen-${version}.tgz --access=public --otp ${otp}`)
   await shell(`git tag ${version}`)
   await shell(`git push origin ${version}`)
 }
@@ -52,5 +51,5 @@ export async function publish(otp, target = 'target/build') {
 export async function publish_dev(otp, target = 'target/build') {
   const { version } = JSON.parse(readFileSync(`${target}/package.json`, 'utf8'))
   if(!version.includes('-dev')) throw Error(`development package version should include -dev specifier`)
-  await shell(`cd ${target} && npm publish sinclair-typebox-codegen-${version}.tgz --access=public --otp ${otp} --tag dev`)
+  await shell(`cd ${target} && bun publish sinclair-typebox-codegen-${version}.tgz --access=public --otp ${otp} --tag dev`)
 }

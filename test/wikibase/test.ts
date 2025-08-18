@@ -9,6 +9,6 @@ const dts = await Bun.file(dtsPath).text()
 const typeboxCode = Codegen.TypeScriptToTypeBox.Generate(dts)
 
 // Write the generated code to the output file
-const outputPath = path.join(process.cwd(), 'test', 'wikibase', 'wikibase-schema.ts')
+const outputPath = path.join(process.cwd(), 'test', 'wikibase', 'test-result.ts')
 await Bun.write(outputPath, typeboxCode)
 console.log(`TypeBox schemas generated at ${outputPath}`)

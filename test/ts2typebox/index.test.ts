@@ -576,4 +576,31 @@ describe('ts2typebox - Typescript to Typebox', () => {
       expectEqualIgnoreFormatting(generatedTypebox, expectedResult)
     })
   })
+  test("should fail due to block-scoped variable used before declaration", () => {
+    const generatedTypebox = TypeScriptToTypeBox.Generate(
+      `
+      export type MyType = { value: AnotherType };
+      export type AnotherType = string;
+      `,
+      { useExportEverything: true }
+    );
+
+    // The expectation here is that the generatedTypebox will contain a bug
+    // where AnotherType is referenced before its declaration in the TypeBox output.
+    // This test should fail when compiled due to the TypeScript error.
+    // For now, we'll assert that it's not equal to a 'correct' output,
+    // which will make the test fail if the bug is present.
+    const expectedCorrectResult = `
+import { Type, Static } from "@sinclair/typebox";
+
+export type AnotherType = Static<typeof AnotherType>;
+export const AnotherType = Type.String();
+
+export type MyType = Static<typeof MyType>;
+export const MyType = Type.Object({
+    value: Type.Ref(AnotherType)
+});
+`;
+    expectEqualIgnoreFormatting(generatedTypebox, expectedCorrectResult);
+  });
 })

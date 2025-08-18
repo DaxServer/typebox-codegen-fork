@@ -15,7 +15,7 @@
     "publish:dev": "hammer task publish_dev",
     "start": "hammer task start",
     "test": "hammer task test",
-    "generate-schemas": "bun test/wikibase/generate-schemas.ts"
+    "test:wikibase": "bun test/wikibase/test.ts"
   },
   "repository": {
     "type": "git",
